@@ -3,3 +3,4 @@ torchvision
 torch
 scipy
 scikit-learn
+opencv-python
