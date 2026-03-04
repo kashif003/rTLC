@@ -1,4 +1,4 @@
 /.idea
 /env
 /track_detection/images
-.track_detection
+track_detection/__pycache__

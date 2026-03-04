@@ -35,3 +35,31 @@ def load_image(path,  plot=False, return_gray_scale=False):
         plt.tight_layout()
         plt.show()
     return img_tensor if not return_gray_scale else gray_tensor
+
+
+
+import cv2
+import numpy as np
+def apply_blur(input_img,blur_type="bilateral", ksize=9, sigma1=5, sigma2=100, sigma3=75):
+    """
+    this fucntion applies the bluring to the input image.
+
+    Args:
+    imgut_img: (numpy.array) gray scale inout image with shape of (1,x,y).
+    blur_type: (str) type of blur we want to apply. default: bilateral
+    ksize: (int) size of the kernal or neighbourhood
+    sigma1: (int) sigma value for guassian blur
+    sigma2,sigma3: (int) sigma value for bilateral blur
+
+    return:
+    numpy.array
+    """
+
+    if blur_type == "bilateral":
+        blur_image = cv2.bilateralFilter(np.array(input_img[0]), ksize, sigma2, sigma3)
+    elif blur_type == "meidanblur":
+        blur_image = cv2.medianBlur(np.array(input_img[0]), ksize)
+    elif blur_type == "gaussianblur":
+        blur_image = cv2.GaussianBlur(np.array(input_img[0]), (ksize,ksize),sigma1)
+
+    return blur_image

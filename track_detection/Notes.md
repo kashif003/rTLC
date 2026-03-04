@@ -46,6 +46,4 @@
 
 - Greyscale image --> apply filters (kernals) --> calculate magnitude --> Thresholding --> Binary mask
 
-**work for tommorow**
-
-- continue from checking which blur to use in main.py
+- tracks are good but we need a clean the image first properly and mark the tracks 
