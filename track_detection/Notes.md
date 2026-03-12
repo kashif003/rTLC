@@ -24,6 +24,7 @@
 1. Edge based lanes
    - sobel filter or canny filter.
    - Run vertical or horizontal projections, find peaks
+   - check out this: https://vincmazet.github.io/bip/detection/edges.html#
 
 2. Template based
    - check out Hough lines or RANSAC etc
@@ -46,4 +47,15 @@
 
 - Greyscale image --> apply filters (kernals) --> calculate magnitude --> Thresholding --> Binary mask
 
-- tracks are good but we need a clean the image first properly and mark the tracks 
+**Problems**
+
+- tracks are good but we need a clean the image first properly and mark the tracks.
+- different edges have diffferent thickness.
+
+## 1.2 Canny filter.
+
+
+### 1.3 HoughLinesP
+
+- it is used to detect the straight line in the canny edge map (check this out)
+
