@@ -6,7 +6,7 @@
 
 1. Horizontal dimention (Not needed)
 2. Starting poistion \*
-3. End position \*
+3. End position 
 4. Track width \*
 5. Distance b/w tracks \*
 6. number of inbetween tracks \*
@@ -54,8 +54,26 @@
 
 ## 1.2 Canny filter.
 
-
 ### 1.3 HoughLinesP
 
 - it is used to detect the straight line in the canny edge map (check this out)
 
+# 4. Deep learning
+
+## segmentation.
+
+- is done using the SAM model (FASTSAM).
+
+## marking
+
+- for reference check this linke (https://gemini.google.com/app/e4fb5034267b2a40?_gl=1*rh7obz*_gcl_au*NzAwMDkzMjQuMTc2MTc0NjM1Nw.._ga*MTQxNDM5Mjk3OC4xNzYxNzQ2MzUy*_ga_WC57KJ50ZZ*czE3NjE3NDYzNTEkbzEkZzEkdDE3NjE3NDY2NjEkajU0JGwwJGgw)
+
+### Connected grouping.
+
+1. check the blobs along the y-axis and mark the start and end positions of each blob.
+2. mark the centriod of each blob.
+3. select the blob with the lowest width.
+4. mark that width in y direction as a track.
+
+# todo
++ change th contrast of the image to check the improvements in the segmentation.

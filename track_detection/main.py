@@ -1,9 +1,9 @@
 # applying solbel filter on images.
 
 # Images
-#path = "images/AH/1_1_1_5_2_48_1_1_1_198.tif"   # medium
+path = "images/AH/1_1_1_5_2_48_1_1_1_198.tif"   # medium
 #path = "images/AH/6_28_3_5_2_21_3_1_1_101.tif"  # hard
-path = "images/KS/1_4_1_5_2_1_1_1_2_507.tif"    # easy
+#path = "images/KS/1_4_1_5_2_1_1_1_2_507.tif"    # easy
 
 # import random
 # import json
@@ -13,7 +13,7 @@ path = "images/KS/1_4_1_5_2_1_1_1_2_507.tif"    # easy
 # path = random.choice(images_path["easy"])
 #path = random.choice(images_path["medium"])
 #path = random.choice(images_path["hard"])
-print("path:", path)
+
 
 # loading the image (greyscale)
 
@@ -21,7 +21,7 @@ from utils import load_image
 from filter import median_filter
 import cv2
 import numpy as np 
-img_tensor = load_image(path,  plot=False, return_gray_scale=True)
+img_tensor = load_image(path, plot=False, return_gray_scale=True)
 fltrd_img = median_filter(img_tensor[0], 21)
 # increseing the contrast of the image.
 cont_img = cv2.convertScaleAbs(np.array(img_tensor[0]), alpha = 1.1, beta = 10)
