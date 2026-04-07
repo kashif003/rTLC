@@ -76,4 +76,7 @@
 4. mark that width in y direction as a track.
 
 # todo
-+ change th contrast of the image to check the improvements in the segmentation.
++  do reprocessing from meneet.
++ check out if we can use clustering to mark the blobs properly. in segment.py
++ correct some images.
+

@@ -80,26 +80,26 @@ class Mask_builder():
     def get_mask(self):
         return self.build_clipped_masks()
 
-# from ultralytics import FastSAM
-# model = FastSAM("FastSAM-s.pt")
-# path = ["images/AH/4_19_2_5_2_1_3_3_2_134.tif"]
-# model =  FastSAM("FastSAM-x.pt")
-# segmentator = Mask_builder(path, model)
-# mask = segmentator.get_mask()
-# print("mask shape:", mask.shape)
-# import matplotlib.pyplot as plt
-# def plot_masks(masks, max_images=None):
-#     total_masks = masks.shape[0]
-#     if max_images is None:
-#         max_images = total_masks
-#     max_images = min(max_images, total_masks)
-#     fig, axes = plt.subplots(1, max_images, figsize=(6 * max_images, 6))
-#     if max_images == 1:
-#         axes = [axes]
-#     for index in range(max_images):
-#         axes[index].imshow(masks[index], cmap="gray")
-#         axes[index].set_title(f"Mask {index}")
-#         axes[index].axis("off")
-#     plt.tight_layout()
-#     plt.show()
+from ultralytics import FastSAM
+model = FastSAM("FastSAM-s.pt")
+path = ["images/AH/4_19_2_5_2_1_3_3_2_134.tif"]
+model =  FastSAM("FastSAM-x.pt")
+segmentator = Mask_builder(path, model)
+mask = segmentator.get_mask()
+print("mask shape:", mask.shape)
+import matplotlib.pyplot as plt
+def plot_masks(masks, max_images=None):
+    total_masks = masks.shape[0]
+    if max_images is None:
+        max_images = total_masks
+    max_images = min(max_images, total_masks)
+    fig, axes = plt.subplots(1, max_images, figsize=(6 * max_images, 6))
+    if max_images == 1:
+        axes = [axes]
+    for index in range(max_images):
+        axes[index].imshow(masks[index], cmap="gray")
+        axes[index].set_title(f"Mask {index}")
+        axes[index].axis("off")
+    plt.tight_layout()
+    plt.show()
 # plot_masks(mask)

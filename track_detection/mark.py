@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
+from pathlib import Path
 
 
 class TrackMarker:
@@ -495,7 +496,7 @@ class TrackMarker:
             "edge_cut": edge_cut,
             "migration_front": migration_front,
             "band_width": rectangle_width,
-            "distances_between_tracks": mean_distance-rectangle_width,
+        #    "distances_between_tracks": mean_distance-rectangle_width,
         }
 
     def plot(self, analysis_result, image=None):
@@ -570,36 +571,46 @@ if __name__ == "__main__":
     from ultralytics import FastSAM
     from segment import Mask_builder
 
-    paths = [
-        "images/AH/6_28_3_5_2_21_3_1_1_101.tif",
-        "images/AH/3_33_2_5_2_53_1_1_1_158.tif",
-        "images/AH/3_33_2_5_2_41_1_1_1_153.tif",
-        "images/AH/4_19_2_5_2_1_3_1_1_126.tif",
-        "images/AH/3_33_2_5_2_1_3_1_1_163.tif",
-        "images/AH/4_19_2_5_2_1_3_3_2_134.tif",
-        "images/AH/1_7_1_5_2_33_3_3_3_181.tif",
-        "images/AH/1_7_1_5_2_1_3_1_1_187.tif",
-        "images/AH/1_7_1_5_2_1_3_3_1_176.tif",
-        "images/AH/3_33_2_5_2_41_1_1_1_153.tif",
-        "images/AH/6_28_3_5_2_1_3_1_1_102.tif",
-        "images/AH/6_28_3_5_2_1_3_1_1_115.tif", 
-        "images/AH/4_19_2_5_2_34_3_1_1_128.tif", 
-        "images/AH/4_19_2_5_2_48_2_1_1_125.tif",
-        "images/AH/4_19_2_5_2_1_3_1_1_126.tif", 
-        "images/AH/9_50_2_4_2_3_1_2_1_106.tif", 
-        "images/AH/3_33_2_5_2_53_2_1_1_156.tif", 
-        "images/AH/3_33_2_5_2_53_1_1_1_158.tif",
+    image_dir = Path(__file__).resolve().parent / "images2"
+    paths = []
+    for img_name in sorted(image_dir.iterdir()):
+        if img_name.is_file():
+            paths.append(str(img_name))
+
+    paths = paths[40:60]
+
+    '''paths = [
+        # "images/AH/6_28_3_5_2_21_3_1_1_101.tif",
+        # "images/AH/3_33_2_5_2_53_1_1_1_158.tif",
+        # "images/AH/3_33_2_5_2_41_1_1_1_153.tif",
+        # "images/AH/4_19_2_5_2_1_3_1_1_126.tif",
+        # "images/AH/3_33_2_5_2_1_3_1_1_163.tif",
+        # "images/AH/4_19_2_5_2_1_3_3_2_134.tif",
+        # "images/AH/1_7_1_5_2_33_3_3_3_181.tif",
+        # "images/AH/1_7_1_5_2_1_3_1_1_187.tif",
+        # "images/AH/1_7_1_5_2_1_3_3_1_176.tif",
+        # "images/AH/3_33_2_5_2_41_1_1_1_153.tif",
+        # "images/AH/6_28_3_5_2_1_3_1_1_102.tif",
+        # "images/AH/6_28_3_5_2_1_3_1_1_115.tif", 
+        # "images/AH/4_19_2_5_2_34_3_1_1_128.tif", 
+        # "images/AH/4_19_2_5_2_48_2_1_1_125.tif",
+        # "images/AH/4_19_2_5_2_1_3_1_1_126.tif", 
+        # "images/AH/9_50_2_4_2_3_1_2_1_106.tif", 
+        # "images/AH/3_33_2_5_2_53_2_1_1_156.tif", 
+        # "images/AH/3_33_2_5_2_53_1_1_1_158.tif",
         "images/AH/4_19_2_5_2_53_3_1_1_148.tif", 
         "images/AH/3_33_2_5_2_40_4_1_1_149.tif" ,
         "images/AH/3_33_2_5_1_41_1_1_1_152.tif",
         "images/AH/3_33_2_5_2_1_1_1_1_164.tif"
-    ]
+    ]'''
 
     #model = FastSAM("FastSAM-s.pt")
     import time
     start = time.time()
-    model = FastSAM("FastSAM-s.pt")
-    #model =  FastSAM("FastSAM-x.pt")
+    #model = FastSAM("FastSAM-s.pt")
+    model =  FastSAM("FastSAM-x.pt")
+    if not paths:
+        raise FileNotFoundError(f"No images found in {image_dir}")
     masks = Mask_builder(paths, model).get_mask()
 
     marker = TrackMarker(
@@ -614,8 +625,9 @@ if __name__ == "__main__":
     print("time:", end-start)
     from utils import load_image
     image_tensors =  load_image(paths, plot=False, return_gray_scale=False, image_size=(1024, 1024))
-    for idx, mask in enumerate(masks):
+    for idx,(path,mask) in enumerate(zip(paths,masks )):
         print(f"\n=== Image {idx} ===")
+        print("path:",path)
         result = marker.analyze_mask(mask)
         band_results = marker.get_band_summary(result)
         for key, value in band_results.items():
