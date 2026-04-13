@@ -1,4 +1,4 @@
 /.idea
-/env
+/rtlc_env
 /track_detection/images
 track_detection/__pycache__

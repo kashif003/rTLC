@@ -1,7 +1,5 @@
 # perform semantic segmentation.
 
-
-
 '''
 ,
 "images/AH/3_33_2_5_2_41_1_1_1_153.tif",
@@ -16,13 +14,7 @@
         "images/AH/4_19_2_5_2_53_3_1_1_148.tif", 
           "images/AH/3_33_2_5_2_40_4_1_1_149.tif" 
            "images/AH/3_33_2_5_1_41_1_1_1_152.tif",
-           "images/AH/3_33_2_5_2_1_1_1_1_164.tif 
-
-
-
-        
-        ,
-        ,
+           "images/AH/3_33_2_5_2_1_1_1_1_164.tif,
         "images/AH/4_19_2_5_3_1_1_1_1_114.tif",
         "images/AH/4_19_2_5_2_1_2_3_2_120.tif",
         "images/AH/3_33_2_5_2_40_4_1_1_149.tif",
@@ -34,7 +26,6 @@
 #path = "images/AH/6_28_3_5_2_21_3_1_1_101.tif"  # hard
 #path = "images/KS/1_4_1_5_2_1_1_1_2_507.tif"    # easy
 #path ="images/AH/6_28_3_5_2_21_3_1_1_101.tif" 
-
 
 
 from utils import load_image
