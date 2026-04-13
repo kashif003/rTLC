@@ -71,14 +71,9 @@ class Mask_builder():
     def get_mask(self):
         return self.build_clipped_masks()
 
-from ultralytics import FastSAM
-model = FastSAM("FastSAM-s.pt")
-path = ["images/AH/4_19_2_5_2_1_3_3_2_134.tif"]
-model =  FastSAM("FastSAM-x.pt")
-segmentator = Mask_builder(path, model)
-mask = segmentator.get_mask()
-print("mask shape:", mask.shape)
 import matplotlib.pyplot as plt
+
+
 def plot_masks(masks, max_images=None):
     total_masks = masks.shape[0]
     if max_images is None:
@@ -93,4 +88,14 @@ def plot_masks(masks, max_images=None):
         axes[index].axis("off")
     plt.tight_layout()
     plt.show()
-# plot_masks(mask)
+
+
+if __name__ == "__main__":
+    from ultralytics import FastSAM
+
+    path = ["images/AH/4_19_2_5_2_1_3_3_2_134.tif"]
+    model = FastSAM("FastSAM-x.pt")
+    segmentator = Mask_builder(path, model)
+    mask = segmentator.get_mask()
+    print("mask shape:", mask.shape)
+    # plot_masks(mask)

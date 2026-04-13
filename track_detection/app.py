@@ -529,3 +529,6 @@ def server(input, output, session):
 
 
 app = App(app_ui, server)
+
+# shiny run --reload app.py
+
