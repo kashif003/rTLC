@@ -17,6 +17,11 @@ from ultralytics import FastSAM
 from segment import Mask_builder
 from mark import TrackMarker
 
+try:
+    import torch
+except Exception:  # torch should exist with ultralytics; keep a safe fallback
+    torch = None
+
 
 app_ui = ui.page_fluid(
     ui.h2("Track detection viewer"),
@@ -48,6 +53,19 @@ app_ui = ui.page_fluid(
 )
 
 
+def resolve_inference_device():
+    """Resolve inference device from env, with GPU auto-detect fallback."""
+    env_device = os.getenv("FASTSAM_DEVICE") or os.getenv("RTLC_DEVICE")
+    if env_device:
+        return env_device
+
+    if torch is not None and torch.cuda.is_available():
+        return "cuda:0"
+
+    return "cpu"
+
+
+INFERENCE_DEVICE = resolve_inference_device()
 model = FastSAM("FastSAM-s.pt")
 marker = TrackMarker(
     area_tolerance=150,
@@ -106,7 +124,7 @@ def draw_markings_on_image(image_path: str, analysis_result: dict):
 
 
 def build_auto_result(image_path: str):
-    mask = Mask_builder([image_path], model).get_mask()[0]
+    mask = Mask_builder([image_path], model, device=INFERENCE_DEVICE).get_mask()[0]
     return marker.analyze_mask(mask)
 
 
@@ -114,7 +132,7 @@ def build_auto_results(image_paths):
     if not image_paths:
         return []
 
-    masks = Mask_builder(image_paths, model).get_mask()
+    masks = Mask_builder(image_paths, model, device=INFERENCE_DEVICE).get_mask()
     return [marker.analyze_mask(mask) for mask in masks]
 
 
@@ -453,7 +471,7 @@ def server(input, output, session):
         lines = [f"{k}: {v}" for k, v in bands.items()]
         mode = "manual" if input.manual_mode() else "auto"
         selected_name = input.selected_image() or ""
-        return "selected image: " + selected_name + "\nmode: " + mode + "\n" + "\n".join(lines)
+        return "selected image: " + selected_name + "\nmode: " + mode + "\ndevice: " + INFERENCE_DEVICE + "\n" + "\n".join(lines)
 
     @reactive.effect
     @reactive.event(input.extract_btn)

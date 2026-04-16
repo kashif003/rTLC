@@ -31,15 +31,20 @@
 from utils import load_image
 import numpy as np
 class Mask_builder():
-    def __init__(self, path_list, model):
+    def __init__(self, path_list, model, device=None):
         self.path_list = [path_list] if isinstance(path_list, str) else path_list
         self.model = model
+        self.device = device
         self.model_results = None
         self.mask = None
     
     def segment(self):
         image_input = load_image(self.path_list, return_gray_scale=False )
-        self.model_results = self.model(image_input)
+        # Forward an explicit device (e.g. "cuda:0" or "cpu") when provided.
+        if self.device:
+            self.model_results = self.model(image_input, device=self.device)
+        else:
+            self.model_results = self.model(image_input)
 
     def _build_clipped_mask(self, result, threshold=0.1):
         if result.masks is None or result.masks.data is None or result.masks.data.shape[0] == 0:

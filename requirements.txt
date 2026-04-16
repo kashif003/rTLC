@@ -1,4 +1,4 @@
-# token: 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
+# token: 
 # to run the matplot lib for ubuntu we need to have python3.12-tk installed and then we need to set the backend to TkAgg
 matplotlib
 torchvision
