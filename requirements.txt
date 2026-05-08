@@ -1,9 +1,7 @@
-# token: 
 # to run the matplot lib for ubuntu we need to have python3.12-tk installed and then we need to set the backend to TkAgg
 matplotlib
 torchvision
 torch
-scipy
 scikit-learn
 opencv-python
 ultralytics

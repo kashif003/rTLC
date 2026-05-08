@@ -546,7 +546,26 @@ def server(input, output, session):
         return "\n".join(lines)
 
 
-app = App(app_ui, server)
+def create_app():
+    return App(app_ui, server)
 
-# shiny run --reload app.py
+
+app = create_app()
+
+
+def run_shiny_app(host: str = "0.0.0.0", port: int = 8000):
+    """Run the app programmatically (useful from notebooks)."""
+    from shiny import run_app
+
+    run_app(app, host=host, port=port, launch_browser=False)
+
+
+def main():
+    host = os.getenv("SHINY_HOST", "0.0.0.0")
+    port = int(os.getenv("SHINY_PORT", "8000"))
+    run_shiny_app(host=host, port=port)
+
+
+if __name__ == "__main__":
+    main()
 
