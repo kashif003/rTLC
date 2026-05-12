@@ -6,3 +6,4 @@ scikit-learn
 opencv-python
 ultralytics
 pyQt5
+lightning-bolts
